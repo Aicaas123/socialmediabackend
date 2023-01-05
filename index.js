@@ -7,7 +7,7 @@ const newUserRegistration = require("./models/userSchema");
 const cors = require("cors");
 const app = express();
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
 
 // use of middle ware section
 
@@ -17,8 +17,9 @@ app.use("/api", userController);
 
 // defaulr Routes Section here
 
-app.all("/", (req, res) => {
-  res.send("Index File Is Working Now ");
+app.get("/", (req, res) => {
+  // res.send("Index File Is Working Now ");
+  res.json({ success: true, message: "Wlecome To Backend Zone !" });
 });
 
 app.listen(port, () => {
