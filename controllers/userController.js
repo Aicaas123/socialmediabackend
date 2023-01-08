@@ -19,6 +19,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 //     console.log(req.body);
 // });
 
+// user registration section
 router.post("/newuser", async (req, res) => {
   // res.status(200).send("Psot Api Is Working ");
   console.log(req.body);
@@ -44,6 +45,15 @@ router.post("/newuser", async (req, res) => {
     }
   } catch (error) {
     res.status(404).send(error);
+  }
+});
+
+router.get("/userlist", async (req, res) => {
+  const alldata = await newUserRegistration.find();
+  if (alldata) {
+    res.status(200).json({ alldata });
+  } else {
+    res.send("No User Found...");
   }
 });
 
