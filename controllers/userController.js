@@ -1,11 +1,12 @@
 // init code
-
+require("dotenv").config();
 const router = require("express").Router();
 const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
 const newUserRegistration = require("../models/userSchema");
 const User = require("../models/userSchema");
+const jwt = require("jsonwebtoken");
 
 // middle ware
 
@@ -36,8 +37,10 @@ router.post("/newuser", async (req, res) => {
         password,
       });
       await saveUser.save();
-      res.status(201).json(saveUser);
-      console.log(saveUser);
+      const token = jwt.sign({ _id: saveUser._id }, process.env.JWT);
+      res.send({ token });
+      // res.status(201).json(saveUser);
+      // console.log(saveUser);
     }
   } catch (error) {
     res.status(404).send(error);

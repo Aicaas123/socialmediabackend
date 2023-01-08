@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //
-app.post("/api", userController);
+app.use("/api", userController);
 
 // defaulr Routes Section here
 
