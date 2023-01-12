@@ -19,7 +19,7 @@ app.use(cors());
 
 //
 app.use("/api", userController);
-app.use("/api", userController);
+// app.use("/api", userController);
 
 // defaulr Routes Section here
 

@@ -48,12 +48,47 @@ router.post("/newuser", async (req, res) => {
   }
 });
 
+// get all user details
+
 router.get("/userlist", async (req, res) => {
   const alldata = await newUserRegistration.find();
   if (alldata) {
     res.status(200).json({ alldata });
   } else {
     res.send("No User Found...");
+  }
+});
+
+// get user details on the basis of user id
+
+router.get("/userlist/:userid", async (req, res) => {
+  try {
+    const userdetails = await newUserRegistration.findById(req.params.userid);
+    // res.send(userdetails);
+    if (userdetails) {
+      res.send(userdetails);
+    } else {
+      res.json({ message: "Opps User Not Found..." });
+    }
+  } catch (error) {
+    res.send("Somthing is Wrong....");
+  }
+});
+
+// get update details of user with somthing details
+router.put("/update/:userid", async (req, res) => {
+  const { name, email, password } = req.body;
+});
+
+// delete user section
+router.delete("/delete/:userid", async (req, res) => {
+  try {
+    const deleteuser = await newUserRegistration.findByIdAndDelete(
+      req.params.userid
+    );
+    res.json({ message: "User Deleted Successfully.." });
+  } catch (error) {
+    res.send(error);
   }
 });
 
