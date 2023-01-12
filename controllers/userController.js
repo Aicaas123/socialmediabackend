@@ -30,7 +30,7 @@ router.post("/newuser", async (req, res) => {
   try {
     const preuser = await newUserRegistration.findOne({ email: email });
     if (preuser) {
-      res.status(404).json({ message: "User Already Present With Us " });
+      return res.status(404).json({ message: "User Already Present With Us " });
     } else {
       const saveUser = new newUserRegistration({
         name,
