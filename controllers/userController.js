@@ -25,12 +25,12 @@ router.post("/newuser", async (req, res) => {
   console.log(req.body);
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
-    res.status(404).send("Plz Fill The All Required Field ");
+    res.status(404).json({ message: "Plz Fill The All Required Field " });
   }
   try {
     const preuser = await newUserRegistration.findOne({ email: email });
     if (preuser) {
-      res.status(404).send("User Already Present With Us ");
+      res.status(404).json({ message: "User Already Present With Us " });
     } else {
       const saveUser = new newUserRegistration({
         name,
@@ -44,7 +44,7 @@ router.post("/newuser", async (req, res) => {
       // console.log(saveUser);
     }
   } catch (error) {
-    res.status(404).send(error);
+    res.status(404).json({ error: error });
   }
 });
 
