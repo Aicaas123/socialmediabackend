@@ -98,11 +98,11 @@ router.delete("/delete/:userid", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res
-      .status(422)
-      .json({ message: "Email or password field should not be blank" });
-  }
+  // if (!email || !password) {
+  //   return res
+  //     .status(422)
+  //     .json({ message: "Email or password field should not be blank" });
+  // }
   const savedUser = await newUserRegistration.findOne({ email: email });
   if (!savedUser) {
     return res.status(422).json({ message: "Invalid Creadential" });
