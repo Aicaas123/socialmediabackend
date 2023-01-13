@@ -104,9 +104,7 @@ router.post("/login", async (req, res) => {
   }
   const savedUser = await newUserRegistration.findOne({ email: email });
   if (!savedUser) {
-    return res
-      .status(422)
-      .json({ message: "Invalid Creadential Finding Section" });
+    return res.status(422).json({ message: "Invalid Creadential" });
   }
   try {
     bcrypt.compare(password, savedUser.password, (err, result) => {
@@ -137,6 +135,7 @@ async function main(useremail, verification) {
     host: "smtp.gmail.com",
     port: 587,
     secure: false, // true for 465, false for other ports
+    requireTLS: true,
     auth: {
       user: "aicaastechnology@gmail.com", // generated ethereal user
       pass: "ptjvhryitvyhtstm", // generated ethereal password
