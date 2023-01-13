@@ -1,6 +1,7 @@
 // init value section
 
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 // user schema
 const userSchema = mongoose.Schema({
@@ -134,6 +135,17 @@ const userSchema = mongoose.Schema({
       default: "",
     },
   },
+});
+
+// password hashing point before saving
+userSchema.pre("save", async function(next) {
+  const user = this;
+  // console.log("before Saving Data", user);
+  if (!user.isModified("password")) {
+    return next();
+  }
+  user.password = await bcrypt.hash(user.password, 8);
+  next();
 });
 
 //create Model
