@@ -97,6 +97,7 @@ router.delete("/delete/:userid", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  alert(email);
   if (!email || !password) {
     return res
       .status(422)
