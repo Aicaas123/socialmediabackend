@@ -105,7 +105,9 @@ router.post("/login", async (req, res) => {
   // }
   const savedUser = await newUserRegistration.findOne({ email: email });
   if (!savedUser) {
-    return res.status(422).json({ message: "Invalid Creadential" });
+    return res
+      .status(422)
+      .json({ message: "Invalid Creadential- No found User" });
   }
   try {
     bcrypt.compare(password, savedUser.password, (err, result) => {
