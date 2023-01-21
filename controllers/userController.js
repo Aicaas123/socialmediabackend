@@ -97,12 +97,12 @@ router.delete("/delete/:userid", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
-  // if (!email || !password) {
-  //   return res
-  //     .status(422)
-  //     .json({ message: "Email or password field should not be blank" });
-  // }
+  console.log(email);
+  if (!email || !password) {
+    return res
+      .status(422)
+      .json({ message: "Email or password field should not be blank" });
+  }
   const savedUser = await newUserRegistration.findOne({ email: email });
   if (!savedUser) {
     return res
@@ -112,9 +112,10 @@ router.post("/login", async (req, res) => {
   try {
     bcrypt.compare(password, savedUser.password, (err, result) => {
       if (result) {
-        console.log("password Methos");
+        console.log("Login Runing ....");
         const token = jwt.sign({ _id: savedUser._id }, process.env.JWT);
-        res.json({ token });
+        const { _id, name, email } = savedUser;
+        res.json({ token, user: { _id, name, email } });
       } else {
         console.log("password Not Match");
         return res.status(422).json({ message: "Invalid Credential" });
