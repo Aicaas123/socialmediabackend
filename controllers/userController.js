@@ -183,5 +183,30 @@ router.post("/verification", async (req, res) => {
   }
 });
 
+// Reset Password Section Here
+
+router.post("/resetpassword", async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(422).json({ message: "Please Add All The Field" });
+  } else {
+    newUserRegistration.findOne({ email: email }).then(async (savedUser) => {
+      if (savedUser) {
+        savedUser.password = password;
+        savedUser
+          .save()
+          .then((user) => {
+            res.status(200).json({ message: "Password changed successfully" });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        return res.status(422).json({ message: "Invalid User" });
+      }
+    });
+  }
+});
+
 // module export
 module.exports = router;
