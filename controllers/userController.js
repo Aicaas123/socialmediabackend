@@ -176,8 +176,10 @@ router.post("/verification", async (req, res) => {
   } else {
     // res.status(200).json({ message: "verification status" });
     const verification = Math.floor(100000 + Math.random() * 900000);
-    main(email, verification);
-    res.status(200).json({ message: "verification Code is Sent" });
+    await main(email, verification);
+    res
+      .status(200)
+      .send({ message: "verification Code is Sent", verification, email });
   }
 });
 
