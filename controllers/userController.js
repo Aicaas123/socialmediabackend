@@ -115,7 +115,13 @@ router.post("/login", async (req, res) => {
         console.log("Login Runing ....");
         const token = jwt.sign({ _id: savedUser._id }, process.env.JWT);
         const { _id, name, email } = savedUser;
-        res.json({ token, user: { _id, name, email } });
+        res
+          .status(200)
+          .json({
+            message: "Login Success",
+            token,
+            user: { _id, name, email },
+          });
       } else {
         console.log("password Not Match");
         return res.status(422).json({ message: "Invalid Credential" });
