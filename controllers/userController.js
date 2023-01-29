@@ -97,7 +97,6 @@ router.delete("/delete/:userid", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log(email);
   if (!email || !password) {
     return res
       .status(422)
@@ -110,7 +109,6 @@ router.post("/login", async (req, res) => {
   try {
     bcrypt.compare(password, savedUser.password, (err, result) => {
       if (result) {
-        console.log("Login Runing ....");
         const token = jwt.sign({ _id: savedUser._id }, process.env.JWT);
         const { _id, name, email } = savedUser;
         res.status(200).json({
@@ -208,6 +206,33 @@ router.post("/resetpassword", async (req, res) => {
       }
     });
   }
+});
+
+// Login Authorization route here
+
+router.post("/userdata", (req, res) => {
+  const { authorization } = req.headers;
+  console.log(authorization);
+  if (!authorization) {
+    return res
+      .status(422)
+      .json({ error: "You Must be Logged In , Token Not Given" });
+  }
+  const token = authorization.replace("Bearer ", "");
+  jwt.verify(token, process.env.JWT, (err, payload) => {
+    if (err) {
+      return res
+        .status(401)
+        .json({ error: "You must be logged in, Token Invalid" });
+    }
+    const { _id } = payload;
+    newUserRegistration.findById(_id).then((userdata) => {
+      res.status(200).json({
+        message: "User Found",
+        user: userdata,
+      });
+    });
+  });
 });
 
 // module export
