@@ -235,5 +235,111 @@ router.post("/userdata", (req, res) => {
   });
 });
 
+// Profile Picture Update
+router.post("/profilepic", async (req, res) => {
+  const { email, profilephoto } = req.body;
+  // console.log(email);
+  newUserRegistration.findOne({ email: email }).then((savedUser) => {
+    if (!savedUser) {
+      return res.status(422).json({ error: "Invalid Credentials" });
+    }
+    savedUser.profilepicture = profilephoto;
+    savedUser
+      .save()
+      .then((result) => {
+        return res.status(200).json({ message: "Profile Update Successfilly" });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+});
+
+//coverPhoto Updating
+
+router.post("/coverphoto", (req, res) => {
+  const { email, coverimage } = req.body;
+  if (!email) {
+    return res.status(422).json({ error: "Login Again" });
+  }
+  newUserRegistration
+    .findOne({ email: email })
+    .then((savedUser) => {
+      if (!savedUser) {
+        return res.status(422).json({ error: "Invalid Credentials" });
+      }
+      savedUser.coverpicture = coverimage;
+      savedUser
+        .save()
+        .then((resulr) => {
+          return res.status(200).json({ message: "Cover image Changed" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+//add bio description
+
+router.post("/bio", (req, res) => {
+  const { email, description } = req.body;
+  if (!email) {
+    return res.status(422).json({ error: "Login Again" });
+  }
+  newUserRegistration
+    .findOne({ email: email })
+    .then((savedUser) => {
+      if (!savedUser) {
+        return res.status(422).json({ error: "Invalide Credentials" });
+      }
+      savedUser.details.bio = description;
+      savedUser
+        .save()
+        .then((result) => {
+          return res.status(200).json({ message: "Bio Successfully updated" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+//panname creation system
+
+router.post("/setpanname", (req, res) => {
+  const { email, panname } = req.body;
+  if (!email) {
+    return res.status(422).json({ error: "Login Again" });
+  }
+  newUserRegistration
+    .findOne({ email: email })
+    .then((savedUser) => {
+      if (!savedUser) {
+        return res.status(422).json({ error: "Invalid Credentials" });
+      }
+      savedUser.details.panname = panname;
+      savedUser
+        .save()
+        .then((result) => {
+          return res
+            .status(200)
+            .json({ message: "Pan name Change Succesfully" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // module export
 module.exports = router;
