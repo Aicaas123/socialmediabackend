@@ -8,17 +8,17 @@ const newUserRegistration = require("../models/userSchema");
 const User = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const RequireLogin = require("../middleware/RequireLogin");
 
 // middle ware
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
-// router Goes Here
-// router.all('/newuser',(req,res)=>{
-//     // res.status(200).send("Hi There is Api Working Point ");
-//     console.log(req.body);
-// });
+//testing route
+router.get("/testing", RequireLogin, (req, res) => {
+  return res.status(422).json({ message: "Somthing is wrong" });
+});
 
 // user registration section
 router.post("/newuser", async (req, res) => {

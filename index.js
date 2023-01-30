@@ -5,7 +5,9 @@ const bodyParser = require("body-parser");
 
 const database = require("./database/database");
 const userController = require("./controllers/userController");
+const PostController = require("./controllers/PostController");
 const newUserRegistration = require("./models/userSchema");
+const userPost = require("./models/PostSchema");
 const cors = require("cors");
 const app = express();
 
@@ -19,6 +21,7 @@ app.use(cors());
 
 //
 app.use("/api", userController);
+app.use("/api", PostController);
 // app.use("/api", userController);
 
 // defaulr Routes Section here
