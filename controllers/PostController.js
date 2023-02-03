@@ -24,6 +24,7 @@ router.post("/createpost", RequireLogin, (req, res) => {
     hashtag,
     description,
     postimage,
+    fontcolor,
     category,
     postedby: res.user,
   });

@@ -235,8 +235,15 @@ router.post("/userdata", (req, res) => {
   });
 });
 
+// testing middle were
+
+router.post("/posting", RequireLogin, (req, res) => {
+  const user = res.user;
+  res.json({ userdetails: user._id });
+});
+
 // Profile Picture Update
-router.post("/profilepic", async (req, res) => {
+router.post("/profilepic", RequireLogin, async (req, res) => {
   const { email, profilephoto } = req.body;
   // console.log(email);
   newUserRegistration.findOne({ email: email }).then((savedUser) => {

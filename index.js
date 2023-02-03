@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const database = require("./database/database");
 const userController = require("./controllers/userController");
 const PostController = require("./controllers/PostController");
+const CaregoryController = require("./controllers/CategoryController");
 const newUserRegistration = require("./models/userSchema");
 const userPost = require("./models/PostSchema");
 const cors = require("cors");
@@ -22,6 +23,7 @@ app.use(cors());
 //
 app.use("/api", userController);
 app.use("/api", PostController);
+app.use("/api", CaregoryController);
 // app.use("/api", userController);
 
 // defaulr Routes Section here

@@ -23,6 +23,20 @@ const PostSchema = new mongoose.Schema({
   category: {
     type: String,
   },
+  copyright: {
+    type: String,
+  },
+  fontcolor: {
+    type: String,
+  },
+  like: {
+    type: Array,
+    default: [],
+  },
+  comment: {
+    type: Array,
+    default: [],
+  },
 });
 
 mongoose.model("userpost", PostSchema);
