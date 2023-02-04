@@ -26,7 +26,7 @@ router.post("/createpost", RequireLogin, (req, res) => {
       .status(401)
       .json({ error: "Kindly Choose a quotes with background" });
   }
-  res.user.password = undefined;
+//   res.user.password = undefined;
   const post = new Post({
     title,
     hashtag,
