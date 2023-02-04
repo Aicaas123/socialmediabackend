@@ -11,30 +11,29 @@ const Post = mongoose.model("userpost");
 //   res.send("Post Rought Working ");
 // });
 // Create Post By User
-router.post("/createpost", (req, res) => {
+router.post("/createpost", RequireLogin, (req, res) => {
   const {
-    email,
     title,
     hashtag,
-    description,
+
     postimage,
     category,
     fontcolor,
+    copyright,
   } = req.body;
   if (!title || !postimage) {
     return res
       .status(401)
       .json({ error: "Kindly Choose a quotes with background" });
   }
-  // res.user.password = undefined;
+  res.user.password = undefined;
   const post = new Post({
-    email,
     title,
     hashtag,
-    description,
+    category,
     postimage,
     fontcolor,
-    category,
+    copyright,
     postedby: res.user,
   });
   post
