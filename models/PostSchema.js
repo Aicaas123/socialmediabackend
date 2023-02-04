@@ -16,19 +16,21 @@ const PostSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  postedby: {
-    type: ObjectId,
-    ref: "newusers",
-  },
+
   category: {
-    type: String,
-  },
-  copyright: {
     type: String,
   },
   fontcolor: {
     type: String,
   },
+  copyright: {
+    type: String,
+  },
+  postedby: {
+    type: ObjectId,
+    ref: "newusers",
+  },
+
   like: {
     type: Array,
     default: [],
