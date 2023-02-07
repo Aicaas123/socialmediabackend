@@ -348,5 +348,71 @@ router.post("/setpanname", (req, res) => {
     });
 });
 
+// followers
+
+router.put("/follower", RequireLogin, (req, res) => {
+  newUserRegistration.findByIdAndUpdate(
+    req.body.followid,
+    {
+      $push: { followers: res.user._id },
+    },
+    { new: true },
+    (err, result) => {
+      if (err) {
+        return res
+          .status(422)
+          .json({ error: "Somthing is Wrong with Followers" });
+      }
+      newUserRegistration
+        .findByIdAndUpdate(
+          res.user._id,
+          {
+            $push: { following: req.body.followid },
+          },
+          { new: true }
+        )
+        .then((result) => {
+          return res.status(200).json({ message: "process done" });
+        })
+        .catch((err) => {
+          return res.status(422).json({ error: err });
+        });
+    }
+  );
+});
+
+//unfollow
+
+router.put("/unfollower", RequireLogin, (req, res) => {
+  newUserRegistration.findByIdAndUpdate(
+    req.body.followid,
+    {
+      $pull: { followers: res.user._id },
+    },
+    { new: true },
+    (err, result) => {
+      if (err) {
+        return res
+          .status(422)
+          .json({ error: "Somthing is Wrong with Followers" });
+      }
+      newUserRegistration
+        .findByIdAndUpdate(
+          res.user._id,
+          {
+            $pull: { following: req.body.followid },
+          },
+          { new: true }
+        )
+        .then((result) => {
+          return res.status(200).json({ message: "process done" });
+        })
+        .catch((err) => {
+          return res.status(422).json({ error: err });
+        });
+    }
+  );
+});
+
 // module export
 module.exports = router;

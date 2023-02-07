@@ -31,14 +31,13 @@ const PostSchema = new mongoose.Schema({
     ref: "newusers",
   },
 
-  like: {
-    type: Array,
-    default: [],
-  },
-  comment: {
-    type: Array,
-    default: [],
-  },
+  like: [{ type: ObjectId, ref: "newuser" }],
+  comment: [
+    {
+      text: String,
+      postedBy: { type: ObjectId, ref: "newuser" },
+    },
+  ],
 });
 
 mongoose.model("userpost", PostSchema);

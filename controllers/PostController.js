@@ -48,7 +48,7 @@ router.post("/createpost", RequireLogin, (req, res) => {
 
 // display all post
 
-router.get("/getallpost", (req, res) => {
+router.get("/getallpost", RequireLogin, (req, res) => {
   Post.find()
     .populate("postedby", " _id, name")
     .then((allpost) => {
@@ -56,6 +56,84 @@ router.get("/getallpost", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+    });
+});
+
+// user post posted by own
+
+router.get("/mypost", RequireLogin, (req, res) => {
+  Post.find({ postedby: res.user._id })
+    .populate("postedby", "_id name")
+    .then((mypost) => {
+      return res.status(200).json({ mypost: mypost });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// post like
+
+router.put("/like", RequireLogin, (req, res) => {
+  Post.findByIdAndUpdate(
+    req.body.postId,
+    {
+      $push: { like: res.user._id },
+    },
+    {
+      new: true,
+    }
+  ).exec((err, result) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+// Unlike post
+router.put("/unlike", RequireLogin, (req, res) => {
+  Post.findByIdAndUpdate(
+    req.body.postId,
+    {
+      $pull: { like: res.user._id },
+    },
+    {
+      new: true,
+    }
+  ).exec((err, result) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+// comment on post
+
+router.put("/comments", RequireLogin, (req, res) => {
+  const comment = {
+    text: req.body.text,
+    postedBy: res.user._id,
+  };
+  Post.findByIdAndUpdate(
+    req.body.postId,
+    {
+      $push: { comment: comment },
+    },
+    {
+      new: true,
+    }
+  )
+    .populate("comment.postedBy", "_id name")
+    .exec((err, result) => {
+      if (err) {
+        return res.status(400).json({ error: err });
+      } else {
+        res.json(result);
+      }
     });
 });
 

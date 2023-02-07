@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-
+const { ObjectId } = mongoose.Schema.Types;
 // user schema
 const userSchema = mongoose.Schema({
   // inserted data into data base is
@@ -72,14 +72,18 @@ const userSchema = mongoose.Schema({
     type: Array,
     default: [],
   },
-  following: {
-    type: Array,
-    default: [],
-  },
-  followers: {
-    type: Array,
-    default: [],
-  },
+  following: [
+    {
+      type: ObjectId,
+      ref: "newusers",
+    },
+  ],
+  followers: [
+    {
+      type: ObjectId,
+      ref: "newusers",
+    },
+  ],
   request: {
     type: Array,
     default: [],
