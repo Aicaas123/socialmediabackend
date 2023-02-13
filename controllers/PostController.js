@@ -115,7 +115,7 @@ router.put("/unlike", RequireLogin, (req, res) => {
 
 router.put("/comments", RequireLogin, (req, res) => {
   const comment = {
-    text: req.body,
+    text: req.body.text,
     postedBy: res.user._id,
   };
   Post.findByIdAndUpdate(
@@ -132,7 +132,7 @@ router.put("/comments", RequireLogin, (req, res) => {
       if (err) {
         return res.status(400).json({ error: err });
       } else {
-        res.json(result);
+        return res.status(200).json({ message: "Post Created" });
       }
     });
 });
