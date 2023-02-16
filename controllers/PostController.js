@@ -92,6 +92,16 @@ router.put("/like", RequireLogin, (req, res) => {
   });
 });
 
+// counr likw
+
+router.get("/likecount", RequireLogin, (req, res) => {
+  const { id } = req.body;
+  Post.find({ _id: id })
+    .then((result) => {
+      return res.status(200).json({ likes: result });
+    })
+    .catch((err) => console.log(err));
+});
 // Unlike post
 router.put("/unlike", RequireLogin, (req, res) => {
   Post.findByIdAndUpdate(
