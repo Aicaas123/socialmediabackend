@@ -83,13 +83,15 @@ router.put("/like", RequireLogin, (req, res) => {
     {
       new: true,
     }
-  ).exec((err, result) => {
-    if (err) {
-      return res.status(400).json({ error: err });
-    } else {
-      res.json(result);
-    }
-  });
+  )
+    .populate("postedBy", "_id name")
+    .exec((err, result) => {
+      if (err) {
+        return res.status(400).json({ error: err });
+      } else {
+        res.json(result);
+      }
+    });
 });
 
 // counr likw
