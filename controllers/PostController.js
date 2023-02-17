@@ -94,7 +94,7 @@ router.put("/like", RequireLogin, (req, res) => {
     });
 });
 
-// counr likw
+// count like
 
 router.get("/likecount", RequireLogin, (req, res) => {
   const { id } = req.body;
@@ -148,6 +148,16 @@ router.put("/comments", RequireLogin, (req, res) => {
         return res.status(200).json({ message: "Post Created" });
       }
     });
+});
+
+//Display Comments of User
+
+router.get("/allcomments", RequireLogin, (req, res) => {
+  Post.find({ _id: req.body.postId })
+    .then((allcomment) => {
+      return res.status(200).json({ comment: allcomment.comment });
+    })
+    .catch((err) => console.log(err));
 });
 
 module.exports = router;
