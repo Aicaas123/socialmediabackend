@@ -50,7 +50,8 @@ router.post("/createpost", RequireLogin, (req, res) => {
 
 router.get("/getallpost", RequireLogin, (req, res) => {
   Post.find()
-    .populate("postedby", " _id, name")
+    .populate("postedBy", " _id name")
+    .populate("comments.postedBy", "_id name")
     .then((allpost) => {
       res.status(200).json({ message: "All Post are", allpost });
     })
@@ -139,13 +140,13 @@ router.put("/comments", RequireLogin, (req, res) => {
       new: true,
     }
   )
-    .populate("comment.postedBy", "_id name")
+    .populate("comments.postedBy", "_id name")
     .populate("postedBy", "_id name")
     .exec((err, result) => {
       if (err) {
         return res.status(400).json({ error: err });
       } else {
-        return res.status(200).json({ message: "Post Created" });
+        return res.status(200).json({ message: result });
       }
     });
 });
@@ -159,7 +160,9 @@ router.get("/allcomments/:postId", RequireLogin, (req, res) => {
       if (!allcomment) {
         return res.status(422).json({ error: "No Comments" });
       } else {
-        return res.status(200).json({ comment: allcomment });
+        return res
+          .status(200)
+          .json({ message: "Comment Find Yet", comment: allcomment });
       }
     })
     .catch((err) => console.log(err));
