@@ -152,10 +152,15 @@ router.put("/comments", RequireLogin, (req, res) => {
 
 //Display Comments of User
 
-router.get("/allcomments", RequireLogin, (req, res) => {
-  Post.find({ _id: req.body.postId })
+router.get("/allcomments/:postId", RequireLogin, (req, res) => {
+  Post.findById(req.params.postId)
+    .populate("postedby", "_id name")
     .then((allcomment) => {
-      return res.status(200).json({ comment: allcomment.comment });
+      if (!allcomment) {
+        return res.status(422).json({ error: "No Comments" });
+      } else {
+        return res.status(200).json({ comment: allcomment });
+      }
     })
     .catch((err) => console.log(err));
 });
