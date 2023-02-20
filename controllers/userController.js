@@ -417,7 +417,7 @@ router.put("/unfollower", RequireLogin, (req, res) => {
 // ProfilePicture Uploading section
 router.put("/setprofilepic", RequireLogin, (req, res) => {
   newUserRegistration
-    .findById(
+    .findByIdAndUpdate(
       res.user._id,
       {
         $set: { profilepicture: req.body.pic },
