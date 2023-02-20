@@ -414,5 +414,26 @@ router.put("/unfollower", RequireLogin, (req, res) => {
   );
 });
 
+// ProfilePicture Uploading section
+router.put("/setprofilepic", RequireLogin, (req, res) => {
+  newUserRegistration
+    .findById(
+      res.user._id,
+      {
+        $set: { profilepicture: req.body.pic },
+      },
+      {
+        new: true,
+      }
+    )
+    .exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        res.status(200).json(result);
+      }
+    });
+});
+
 // module export
 module.exports = router;
