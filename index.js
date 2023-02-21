@@ -9,6 +9,7 @@ const PostController = require("./controllers/PostController");
 const CaregoryController = require("./controllers/CategoryController");
 const newUserRegistration = require("./models/userSchema");
 const userPost = require("./models/PostSchema");
+const User = require("./controllers/User");
 const cors = require("cors");
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(cors());
 app.use("/api", userController);
 app.use("/api", PostController);
 app.use("/api", CaregoryController);
+app.use("/api", User);
 // app.use("/api", userController);
 
 // defaulr Routes Section here
