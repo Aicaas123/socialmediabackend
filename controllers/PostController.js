@@ -50,7 +50,7 @@ router.post("/createpost", RequireLogin, (req, res) => {
 
 router.get("/getallpost", RequireLogin, (req, res) => {
   Post.find()
-    .populate("postedby", " _id, name")
+    .populate("postedby", " _id, name profilepicture")
     .populate("comments.postedBy", "_id name")
     .then((allpost) => {
       res.status(200).json({ message: "All Post are", allpost });
