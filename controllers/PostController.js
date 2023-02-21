@@ -64,7 +64,7 @@ router.get("/getallpost", RequireLogin, (req, res) => {
 
 router.get("/mypost", RequireLogin, (req, res) => {
   Post.find({ postedby: res.user._id })
-    .populate("postedby", "_id name")
+    .populate("postedby", "_id name profilepicture")
     .then((mypost) => {
       return res.status(200).json({ mypost: mypost });
     })
