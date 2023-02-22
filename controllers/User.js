@@ -30,7 +30,7 @@ router.put("/follow", RequireLogin, (req, res) => {
   newUserRegistration.findByIdAndUpdate(
     req.body.followId,
     {
-      $push: { followers: req.user._id },
+      $push: { followers: res.user._id },
     },
     {
       new: true,
@@ -41,7 +41,7 @@ router.put("/follow", RequireLogin, (req, res) => {
       }
       newUserRegistration
         .findByIdAndUpdate(
-          req.user._id,
+          res.user._id,
           {
             $push: { following: req.body.followId },
           },
@@ -64,7 +64,7 @@ router.put("/unfollow", RequireLogin, (req, res) => {
   newUserRegistration.findByIdAndUpdate(
     req.body.followId,
     {
-      $pull: { followers: req.user._id },
+      $pull: { followers: res.user._id },
     },
     {
       new: true,
@@ -75,7 +75,7 @@ router.put("/unfollow", RequireLogin, (req, res) => {
       }
       newUserRegistration
         .findByIdAndUpdate(
-          req.user._id,
+          res.user._id,
           {
             $pull: { following: req.body.followId },
           },
