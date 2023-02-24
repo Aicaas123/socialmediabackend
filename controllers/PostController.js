@@ -85,7 +85,7 @@ router.put("/like", RequireLogin, (req, res) => {
       new: true,
     }
   )
-    .populate("postedBy", "_id name")
+    .populate("postedby", "_id name")
     .exec((err, result) => {
       if (err) {
         return res.status(400).json({ error: err });
@@ -115,13 +115,15 @@ router.put("/unlike", RequireLogin, (req, res) => {
     {
       new: true,
     }
-  ).exec((err, result) => {
-    if (err) {
-      return res.status(400).json({ error: err });
-    } else {
-      res.json(result);
-    }
-  });
+  )
+    .populate("postedby", "_id name")
+    .exec((err, result) => {
+      if (err) {
+        return res.status(400).json({ error: err });
+      } else {
+        res.json(result);
+      }
+    });
 });
 
 // comment on post
@@ -164,6 +166,17 @@ router.get("/allcomments/:postId", RequireLogin, (req, res) => {
           .status(200)
           .json({ message: "Comment Find Yet", comment: allcomment });
       }
+    })
+    .catch((err) => console.log(err));
+});
+
+// to show myfollowing post
+router.get("/myfollowingpost", RequireLogin, (req, res) => {
+  Post.find({ postedby: { $in: res.user.following } })
+    .populate("postedby", "_id name")
+    .populate("comments.postedBy", "_id name")
+    .then((userpost) => {
+      res.json(userpost);
     })
     .catch((err) => console.log(err));
 });
