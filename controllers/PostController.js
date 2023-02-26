@@ -85,7 +85,7 @@ router.put("/like", RequireLogin, (req, res) => {
       new: true,
     }
   )
-    .populate("postedby", "_id name")
+    .populate("postedby", "_id name profilepicture")
     .exec((err, result) => {
       if (err) {
         return res.status(400).json({ error: err });
@@ -116,7 +116,7 @@ router.put("/unlike", RequireLogin, (req, res) => {
       new: true,
     }
   )
-    .populate("postedby", "_id name")
+    .populate("postedby", "_id name profilepicture")
     .exec((err, result) => {
       if (err) {
         return res.status(400).json({ error: err });
@@ -143,7 +143,7 @@ router.put("/comments", RequireLogin, (req, res) => {
     }
   )
     .populate("comments.postedBy", "_id name")
-    .populate("postedby", "_id name")
+    .populate("postedby", "_id name profilepicture")
     .exec((err, result) => {
       if (err) {
         return res.status(400).json({ error: err });
@@ -173,7 +173,7 @@ router.get("/allcomments/:postId", RequireLogin, (req, res) => {
 // to show myfollowing post
 router.get("/myfollowingpost", RequireLogin, (req, res) => {
   Post.find({ postedby: { $in: res.user.following } })
-    .populate("postedby", "_id name")
+    .populate("postedby", "_id name profilepicture")
     .populate("comments.postedBy", "_id name")
     .then((userpost) => {
       res.json(userpost);
@@ -184,7 +184,7 @@ router.get("/myfollowingpost", RequireLogin, (req, res) => {
 //to show Followers Details
 router.get("/followerspost", RequireLogin, (req, res) => {
   Post.find({ postedby: { $in: res.user.followers } })
-    .populate("postedby", "_id name")
+    .populate("postedby", "_id name profilepicture")
     .populate("comments.postedBy", "_id name")
     .then((userpost) => {
       res.json(userpost);
