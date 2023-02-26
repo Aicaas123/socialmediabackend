@@ -435,5 +435,24 @@ router.put("/setprofilepic", RequireLogin, (req, res) => {
     });
 });
 
+// To search Followers and Followings Section
+
+router.get("/search/:key", RequireLogin, async (req, res) => {
+  await newUserRegistration
+    .find({
+      $or: [
+        {
+          name: { $regex: req.params.key },
+        },
+        {
+          email: { $regex: req.params.key },
+        },
+      ],
+    })
+    .then((result) => {
+      return res.status(200).json({ userdetails: result });
+    })
+    .catch((err) => console.log(err));
+});
 // module export
 module.exports = router;

@@ -181,4 +181,15 @@ router.get("/myfollowingpost", RequireLogin, (req, res) => {
     .catch((err) => console.log(err));
 });
 
+//to show Followers Details
+router.get("/followerspost", RequireLogin, (req, res) => {
+  Post.find({ postedby: { $in: res.user.followers } })
+    .populate("postedby", "_id name")
+    .populate("comments.postedBy", "_id name")
+    .then((userpost) => {
+      res.json(userpost);
+    })
+    .catch((err) => console.log(err));
+});
+
 module.exports = router;
