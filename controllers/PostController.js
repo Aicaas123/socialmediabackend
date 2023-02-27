@@ -20,6 +20,8 @@ router.post("/createpost", RequireLogin, (req, res) => {
     category,
     fontcolor,
     copyright,
+    fontsize,
+    posturl,
   } = req.body;
   if (!title || !postimage) {
     return res
@@ -34,6 +36,8 @@ router.post("/createpost", RequireLogin, (req, res) => {
     postimage,
     fontcolor,
     copyright,
+    fontsize,
+    posturl,
     postedby: res.user,
   });
   post
