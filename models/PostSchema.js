@@ -26,6 +26,12 @@ const PostSchema = new mongoose.Schema({
   copyright: {
     type: String,
   },
+  fontsize: {
+    type: String,
+  },
+  posturl: {
+    type: String,
+  },
   postedby: {
     type: ObjectId,
     ref: "newusers",
