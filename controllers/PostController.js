@@ -204,7 +204,7 @@ router.delete("/deletepost/:postId", RequireLogin, (req, res) => {
   Post.findOne({ _id: req.params.postId })
     .populate("postedby", "_id")
     .exec((err, allpost) => {
-      if (err || allpost) {
+      if (err || !allpost) {
         return res.status(422).json({ error: err });
       }
       if (allpost.postedby._id.toString() == res.user._id.toString()) {
