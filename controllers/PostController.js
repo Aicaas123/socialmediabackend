@@ -56,6 +56,7 @@ router.get("/getallpost", RequireLogin, (req, res) => {
   Post.find()
     .populate("postedby", " _id, name profilepicture")
     .populate("comments.postedBy", "_id name")
+    .sort(-createdAt)
     .then((allpost) => {
       res.status(200).json({ message: "All Post are", allpost });
     })
@@ -69,6 +70,8 @@ router.get("/getallpost", RequireLogin, (req, res) => {
 router.get("/mypost", RequireLogin, (req, res) => {
   Post.find({ postedby: res.user._id })
     .populate("postedby", "_id name profilepicture")
+    .populate("comments.postedBy", "_id name profilepicture")
+    .sort(-createdAt)
     .then((mypost) => {
       return res.status(200).json({ mypost: mypost });
     })
@@ -146,7 +149,7 @@ router.put("/comments", RequireLogin, (req, res) => {
       new: true,
     }
   )
-    .populate("comments.postedBy", "_id name")
+    .populate("comments.postedBy", "_id name profilepicture")
     .populate("postedby", "_id name profilepicture")
     .exec((err, result) => {
       if (err) {
@@ -194,6 +197,25 @@ router.get("/followerspost", RequireLogin, (req, res) => {
       res.json(userpost);
     })
     .catch((err) => console.log(err));
+});
+
+//to delete post
+router.delete("/deletepost/:postId", RequireLogin, (req, res) => {
+  Post.findOne({ id: req.params.postId })
+    .populate("postedby", "_id")
+    .exec((err, allpost) => {
+      if (err || allpost) {
+        return res.status(422).json({ error: err });
+      }
+      if (allpost.postedby._id.toString() == res.user._id.toString()) {
+        allpost
+          .remove()
+          .then((result) => {
+            return res.json({ message: "Post Delete Successfully" });
+          })
+          .catch((err) => console.log(err));
+      }
+    });
 });
 
 module.exports = router;
