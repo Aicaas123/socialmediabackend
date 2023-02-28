@@ -56,7 +56,7 @@ router.get("/getallpost", RequireLogin, (req, res) => {
   Post.find()
     .populate("postedby", " _id, name profilepicture")
     .populate("comments.postedBy", "_id name")
-    .sort(-createdAt)
+    .sort("-createdAt")
     .then((allpost) => {
       res.status(200).json({ message: "All Post are", allpost });
     })
@@ -71,7 +71,7 @@ router.get("/mypost", RequireLogin, (req, res) => {
   Post.find({ postedby: res.user._id })
     .populate("postedby", "_id name profilepicture")
     .populate("comments.postedBy", "_id name profilepicture")
-    .sort(-createdAt)
+    .sort("-createdAt")
     .then((mypost) => {
       return res.status(200).json({ mypost: mypost });
     })
