@@ -201,7 +201,7 @@ router.get("/followerspost", RequireLogin, (req, res) => {
 
 //to delete post
 router.delete("/deletepost/:postId", RequireLogin, (req, res) => {
-  Post.findOne({ id: req.params.postId })
+  Post.findOne({ _id: req.params.postId })
     .populate("postedby", "_id")
     .exec((err, allpost) => {
       if (err || allpost) {
