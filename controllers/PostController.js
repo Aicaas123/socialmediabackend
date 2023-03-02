@@ -136,20 +136,23 @@ router.put("/unlike", RequireLogin, (req, res) => {
 // comment on post
 
 router.put("/comments", RequireLogin, (req, res) => {
-  const comment = {
+  const commentset = {
     text: req.body.text,
     postedBy: res.user._id,
   };
   Post.findByIdAndUpdate(
     req.body.postId,
     {
-      $push: { comments: comment },
+      $push: {
+        comments: { comment: req.body.text, postedBy: res.user._id },
+      },
     },
     {
       new: true,
     }
   )
     .populate("comments.postedBy", "_id name profilepicture")
+    .populate("comments.comment", "text")
     .populate("postedby", "_id name profilepicture")
     .exec((err, result) => {
       if (err) {
