@@ -143,7 +143,7 @@ router.put("/comments", RequireLogin, (req, res) => {
   Post.findByIdAndUpdate(
     req.body.postId,
     {
-      $push: { comment: comment },
+      $push: { comments: comment },
     },
     {
       new: true,
