@@ -136,7 +136,7 @@ router.put("/unlike", RequireLogin, (req, res) => {
 // comment on post
 
 router.put("/comments", RequireLogin, (req, res) => {
-  const commentset = {
+  const comment = {
     text: req.body.text,
     postedBy: res.user._id,
   };
@@ -144,6 +144,7 @@ router.put("/comments", RequireLogin, (req, res) => {
     req.body.postId,
     {
       $push: {
+        // comments: comment,
         comments: { comment: req.body.text, postedBy: res.user._id },
       },
     },
@@ -152,7 +153,7 @@ router.put("/comments", RequireLogin, (req, res) => {
     }
   )
     .populate("comments.postedBy", "_id name profilepicture")
-    .populate("comments.comment", "text")
+
     .populate("postedby", "_id name profilepicture")
     .exec((err, result) => {
       if (err) {
