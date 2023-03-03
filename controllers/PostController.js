@@ -168,7 +168,8 @@ router.put("/comments", RequireLogin, (req, res) => {
 
 router.get("/allcomments/:postId", RequireLogin, (req, res) => {
   Post.findById(req.params.postId)
-    .populate("postedby", "_id name")
+    .populate("postedby", "_id name profilepicture")
+    .populate("comments.postedBy", "_id name profilepicture")
     .then((allcomment) => {
       if (!allcomment) {
         return res.status(422).json({ error: "No Comments" });
