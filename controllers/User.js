@@ -93,5 +93,20 @@ router.put("/unfollow", RequireLogin, (req, res) => {
   );
 });
 
+// To get the count of followers
+
+router.get("/userfollowing", RequireLogin, (req, res) => {
+  newUserRegistration
+    .find({ followers: res.user._id })
+    .then((followers) => {
+      if (followers) {
+        return res.status(200).json({ followers: followers });
+      } else {
+        return res.status(302).json({ message: "No Followers Found" });
+      }
+    })
+    .catch((err) => console.log(err));
+});
+
 //follow
 module.exports = router;
