@@ -97,10 +97,11 @@ router.put("/unfollow", RequireLogin, (req, res) => {
 
 router.get("/userfollowing", RequireLogin, (req, res) => {
   newUserRegistration
-    .find({ followers: res.user._id })
-    .then((followers) => {
-      if (followers) {
-        return res.status(200).json({ followers: followers });
+    .find({ following: res.user._id })
+
+    .then((following) => {
+      if (following) {
+        return res.status(200).json({ followings: followers });
       } else {
         return res.status(302).json({ message: "No Followers Found" });
       }
