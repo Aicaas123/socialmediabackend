@@ -149,7 +149,7 @@ async function main(useremail, verification) {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: "PaperWiff <aicaastechnology@gmail.com>", // sender address
-    to: "sjha707@gmail.com", // list of receivers
+    to: `${useremail}`, // list of receivers
     subject: `User Verification Code is ${verification}`, // Subject line
     text: `User Verification code is ${verification} `, // plain text body
     html: `User Verification code is ${verification} `, // html body
