@@ -15,7 +15,6 @@ router.post("/createpost", RequireLogin, (req, res) => {
   const {
     title,
     hashtag,
-
     postimage,
     category,
     fontcolor,
@@ -23,11 +22,11 @@ router.post("/createpost", RequireLogin, (req, res) => {
     fontsize,
     posturl,
   } = req.body;
-  if (!title || !postimage) {
-    return res
-      .status(401)
-      .json({ error: "Kindly Choose a quotes with background" });
-  }
+  // if (!title || !postimage) {
+  //   return res
+  //     .status(401)
+  //     .json({ error: "Kindly Choose a quotes with background" });
+  // }
   res.user.password = undefined;
   const post = new Post({
     title,
